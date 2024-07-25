@@ -1,0 +1,30 @@
+{
+  "name": "wrapper-testing-bitcoin-and-stacks",
+  "version": "1.0.5",
+  "description": "",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest"
+  },
+  "author": "bowtiedwoo",
+  "license": "ISC",
+  "dependencies": {
+    "@hirosystems/clarinet-sdk": "^2.6.0",
+    "@stacks/transactions": "^6.15.0",
+    "bip32": "^4.0.0",
+    "bip39": "^3.1.0",
+    "bitcoin-address-validation": "^2.2.3",
+    "bitcoinjs-lib": "^6.1.6",
+    "ecpair": "^2.1.0",
+    "fast-check": "^3.19.0",
+    "tiny-secp256k1": "^2.2.3",
+    "typescript": "^5.5.2",
+    "vitest": "^1.6.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/degen-lab/stacks-mocking-functions"
+  }
+}

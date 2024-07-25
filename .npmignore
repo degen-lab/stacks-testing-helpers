@@ -1,0 +1,17 @@
+# Ignore test files
+tests
+*.test.ts
+*.spec.ts
+
+# Ignore configuration and local environment files
+.vscode
+*.toml
+settings
+.prettierrc
+deployments
+tsconfig.json
+.gitignore
+contracts
+
+# Ignore specific package manager files
+package-lock.json
