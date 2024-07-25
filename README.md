@@ -1,4 +1,4 @@
-# wrapper-testing-bitcoin-and-stacks [![npm](https://img.shields.io/npm/v/wrapper-testing-bitcoin-and-stacks?color=red)](https://www.npmjs.com/package/wrapper-testing-bitcoin-and-stacks)
+# stacks-testing-helpers [![npm](https://img.shields.io/npm/v/stacks-testing-helpers?color=red)](https://www.npmjs.com/package/stacks-testing-helpers)
 
 This library provides a convenient wrapper for testing and developing on Bitcoin and Stacks. It offers helper functions to mock different scenarios.
 
@@ -63,7 +63,7 @@ The functions which require simnet can only be used inside a [clarinet](https://
 This function is used for getting the current reward cycle of the given Simnet instance.
 
 ```typescript
-import { currentRewardCycleMock } from '@something/mocking';
+import { currentRewardCycleMock } from 'stacks-testing-helpers';
 
 const address = 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM'; // STX address
 
@@ -75,7 +75,7 @@ const currentRewardCycle = currentRewardCycleMock(simnet, address);
 This function is used for identifying what cycle a given burn height belongs to for a given Simnet instance.
 
 ```typescript
-import { burnHeightToRewardCycleMock } from '@something/mocking';
+import { burnHeightToRewardCycleMock } from 'stacks-testing-helpers';
 
 const address = 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM'; // STX address
 const height = 2050; //any number
@@ -88,7 +88,7 @@ const rewardCycle = burnHeightToRewardCycleMock(simnet, address, height);
 This function is used for getting the burn height that a cycle starts at for a given Simnet instance.
 
 ```typescript
-import { rewardCycleToBurnHeightMock } from '@something/mocking';
+import { rewardCycleToBurnHeightMock } from 'stacks-testing-helpers';
 
 const address = 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM'; // STX address
 const rewCycle = 2; //any number
@@ -108,7 +108,7 @@ This function is used for getting the following information about the pox contra
 - 'total-liquid-supply-ustx': The total liquid supply of uSTX.
 
 ```typescript
-import { getPoxInfoMock } from '@something/mocking';
+import { getPoxInfoMock } from 'stacks-testing-helpers';
 
 const address = 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM'; // STX address
 
@@ -120,7 +120,7 @@ const poxInfo = getPoxInfoMock(simnet, address);
 This function is used for getting the stacking minimum of the pox contract for a given Simnet instance.
 
 ```typescript
-import { getStackingMinimumMock } from '@something/mocking';
+import { getStackingMinimumMock } from 'stacks-testing-helpers';
 
 const address = 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM'; // STX address
 
@@ -132,7 +132,7 @@ const stackingMinimum = getStackingMinimumMock(simnet, address);
 This function is used for getting the remaining blocks until the start of the next reward phase for a given Simnet instance, if the current block is a reward phase block then it will return 0.
 
 ```typescript
-import { blocksUntilRewardPhaseMock } from '@something/mocking';
+import { blocksUntilRewardPhaseMock } from 'stacks-testing-helpers';
 
 const blocksUntilRew = blocksUntilRewardPhaseMock(simnet);
 ```
@@ -143,7 +143,7 @@ This function is used for getting the remaining blocks before the reward phase b
 height with the default `rewardCycleLength = 1050`, `prepareCycleLength = 50`, `startBurnHeight = 0`, if the given burn block is a reward phase block then it will return 0.
 
 ```typescript
-import { customBlocksUntilRewardPhaseMock } from '@something/mocking';
+import { customBlocksUntilRewardPhaseMock } from 'stacks-testing-helpers';
 
 const burnHeight = 2005;
 
@@ -153,7 +153,7 @@ const blocksUntilRew = customBlocksUntilRewardPhaseMock(burnHeight);
 Also there can be entered custom `rewardCycleLength`, `prepareCycleLength`, `startBurnHeight`:
 
 ```typescript
-import { customBlocksUntilRewardPhaseMock } from '@something/mocking';
+import { customBlocksUntilRewardPhaseMock } from 'stacks-testing-helpers';
 
 const burnHeight = 2005;
 const rewardCycleLength = 40;
@@ -173,7 +173,7 @@ const blocksUntilRew = customBlocksUntilRewardPhaseMock(
 This function is used for getting the remaining blocks until the start of the next prepare phase for a given Simnet instance, if the current block is a prepare phase block then it will return 0.
 
 ```typescript
-import { blocksUntilPreparePhaseMock } from '@something/mocking';
+import { blocksUntilPreparePhaseMock } from 'stacks-testing-helpers';
 
 const blocksUntilPrepare = blocksUntilPreparePhaseMock(simnet);
 ```
@@ -184,7 +184,7 @@ This function is used for getting the remaining blocks before the prepare phase 
 height with the default `rewardCycleLength = 1050`, `prepareCycleLength = 50`, `startBurnHeight = 0`, if the given burn block is a prepare phase block then it will return 0.
 
 ```typescript
-import { customBlocksUntilPreparePhaseMock } from '@something/mocking';
+import { customBlocksUntilPreparePhaseMock } from 'stacks-testing-helpers';
 
 const blockHeight = 2005;
 
@@ -194,7 +194,7 @@ const blocksUntilRew = customBlocksUntilPreparePhaseMock(blockHeight);
 Also there can be entered custom `rewardCycleLength`, `prepareCycleLength`, `startBurnHeight`:
 
 ```typescript
-import { customBlocksUntilPreparePhaseMock } from '@something/mocking';
+import { customBlocksUntilPreparePhaseMock } from 'stacks-testing-helpers';
 
 const blockHeight = 2005;
 const rewardCycleLength = 40;
@@ -214,7 +214,7 @@ const blocksUntilPrepare = customBlocksUntilPreparePhaseMock(
 This function is used for checking if the given burn height is a prepare phase block of a given Simnet instance, returning a boolean.
 
 ```typescript
-import { isInPreparePhaseMock } from '@something/mocking';
+import { isInPreparePhaseMock } from 'stacks-testing-helpers';
 
 const address = 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM'; // STX address
 const burnHeight = 2059;
@@ -229,7 +229,7 @@ const isPreparePhase = isInPreparePhaseMock(simnet, address, height);
 This function queries the Simnet instance to retrieve the current burn block height.
 
 ```typescript
-import { burnBlockHeight } from '@something/mocking';
+import { burnBlockHeight } from 'stacks-testing-helpers';
 
 const burnHeight = burnBlockHeight(simnet);
 ```
@@ -239,7 +239,7 @@ const burnHeight = burnBlockHeight(simnet);
 This function queries the Simnet instance to retrieve the chain ID.
 
 ```typescript
-import { chainId } from '@something/mocking';
+import { chainId } from 'stacks-testing-helpers';
 
 const id = chainId(simnet);
 ```
@@ -249,7 +249,7 @@ const id = chainId(simnet);
 This function queries the Simnet instance to retrieve the contract caller.
 
 ```typescript
-import { contractCaller } from '@something/mocking';
+import { contractCaller } from 'stacks-testing-helpers';
 
 const caller = contractCaller(simnet);
 ```
@@ -259,7 +259,7 @@ const caller = contractCaller(simnet);
 This function queries the Simnet instance to retrieve the current liquid supply of STX.
 
 ```typescript
-import { stxLiquidSupply } from '@something/mocking';
+import { stxLiquidSupply } from 'stacks-testing-helpers';
 
 const liquidSupply = stxLiquidSupply(simnet);
 ```
@@ -273,7 +273,7 @@ This function queries the Simnet instance to retrieve the details of the specifi
 - 'unlocked': The unlocked amount in ustx.
 
 ```typescript
-import { stxAccount } from '@something/mocking';
+import { stxAccount } from 'stacks-testing-helpers';
 
 const address = 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM'; // STX address
 
@@ -285,7 +285,7 @@ const account = stxAccount(simnet, address);
 This function queries the Simnet instance to retrieve the value of a specific data variable from the specified contract.
 
 ```typescript
-import { getDataVar } from '@something/mocking';
+import { getDataVar } from 'stacks-testing-helpers';
 
 const contract = 'your-contract';
 const varName = 'your-data-variable';
@@ -298,7 +298,7 @@ const dataVar = getDataVar(simnet, contract, varName);
 This function queries the Simnet instance to retrieve the entry of a specific map, identified by its name and key (as ClarityValue), from the specified contract.
 
 ```typescript
-import { getMapEntry } from '@something/mocking';
+import { getMapEntry } from 'stacks-testing-helpers';
 import { Cl } from '@stacks/transactions';
 
 const contract = 'your-contract';
@@ -315,7 +315,7 @@ const mapEntry = getMapEntry(simnet, contract, mapName, mapKey);
 This function derives the public key from a given mnemonic phrase using the specified derivation path for Leather Wallet (BIP84) with the default values `network = 0`, `accountIndex = 0`, `change = 0` and `addressIndex = 0`.
 
 ```typescript
-import { mnemonicToPubKeyLeather } from '@something/mocking';
+import { mnemonicToPubKeyLeather } from 'stacks-testing-helpers';
 
 const mnemonic = 'your-mnemonic-phrase';
 
@@ -325,7 +325,7 @@ const pubKey = mnemonicToPubKeyLeather(mnemonic);
 There can also be custom values:
 
 ```typescript
-import { mnemonicToPubKeyLeather } from '@something/mocking';
+import { mnemonicToPubKeyLeather } from 'stacks-testing-helpers';
 
 const mnemonic = 'your-mnemonic-phrase';
 const network = 1;
@@ -347,7 +347,7 @@ const pubKey = mnemonicToPubKeyLeather(
 This function derives the public key from a given mnemonic phrase using the specified derivation path for Xverse (BIP49) with the default values `network = 0`, `accountIndex = 0`, `change = 0` and `addressIndex = 0`.
 
 ```typescript
-import { mnemonicToPubKeyXverse } from '@something/mocking';
+import { mnemonicToPubKeyXverse } from 'stacks-testing-helpers';
 
 const mnemonic = 'your-mnemonic-phrase';
 
@@ -357,7 +357,7 @@ const publicKey = mnemonicToPubKeyXverse(mnemonic);
 There can also be custom values:
 
 ```typescript
-import { mnemonicToPubKeyXverse } from '@something/mocking';
+import { mnemonicToPubKeyXverse } from 'stacks-testing-helpers';
 
 const mnemonic = 'your-mnemonic-phrase';
 const network = 1;
@@ -379,7 +379,7 @@ const publicKey = mnemonicToPubKeyXverse(
 This function derives the address from a given mnemonic phrase using the specified derivation path for Leather Wallet (BIP84) with the default values `network = 0`, `accountIndex = 0`, `change = 0` and `addressIndex = 0`.
 
 ```typescript
-import { mnemonicToAddressLeather } from '@something/mocking';
+import { mnemonicToAddressLeather } from 'stacks-testing-helpers';
 
 const mnemonic = 'your-mnemonic-phrase';
 
@@ -389,7 +389,7 @@ const address = mnemonicToAddressLeather(mnemonic);
 There can also be custom values:
 
 ```typescript
-import { mnemonicToAddressLeather } from '@something/mocking';
+import { mnemonicToAddressLeather } from 'stacks-testing-helpers';
 
 const mnemonic = 'your-mnemonic-phrase';
 const network = 1;
@@ -411,7 +411,7 @@ const address = mnemonicToAddressLeather(
 This function derives the address from a given mnemonic phrase using the specified derivation path for Xverse Wallet (BIP49) with the default values `network = 0`, `accountIndex = 0`, `change = 0` and `addressIndex = 0`.
 
 ```typescript
-import { mnemonicToAddressXverse } from '@something/mocking';
+import { mnemonicToAddressXverse } from 'stacks-testing-helpers';
 
 const mnemonic = 'your-mnemonic-phrase';
 
@@ -421,7 +421,7 @@ const address = mnemonicToAddressXverse(mnemonic);
 There can also be custom values:
 
 ```typescript
-import { mnemonicToAddressXverse } from '@something/mocking';
+import { mnemonicToAddressXverse } from 'stacks-testing-helpers';
 
 const mnemonic = 'your-mnemonic-phrase';
 const network = 1;
@@ -443,7 +443,7 @@ const address = mnemonicToAddressXverse(
 This function derives the private key from a given mnemonic phrase using the specified derivation path for Leather Wallet (BIP84) with the default values `network = 0`, `accountIndex = 0`, `change = 0` and `addressIndex = 0`.
 
 ```typescript
-import { mnemonicToPrivKeyLeather } from '@something/mocking';
+import { mnemonicToPrivKeyLeather } from 'stacks-testing-helpers';
 
 const mnemonic = 'your-mnemonic-phrase';
 
@@ -453,7 +453,7 @@ const privateKey = mnemonicToPrivKeyLeather(mnemonic);
 There can also be custom values:
 
 ```typescript
-import { mnemonicToPrivKeyLeather } from '@something/mocking';
+import { mnemonicToPrivKeyLeather } from 'stacks-testing-helpers';
 
 const mnemonic = 'your-mnemonic-phrase';
 const network = 1;
@@ -475,7 +475,7 @@ const privateKey = mnemonicToPrivKeyLeather(
 This function derives the private key from a given mnemonic phrase using the specified derivation path for Xverse Wallet (BIP49) with the default values `network = 0`, `accountIndex = 0`, `change = 0` and `addressIndex = 0`.
 
 ```typescript
-import { mnemonicToPrivKeyXverse } from '@something/mocking';
+import { mnemonicToPrivKeyXverse } from 'stacks-testing-helpers';
 
 const mnemonic = 'your-mnemonic-phrase';
 
@@ -485,7 +485,7 @@ const privateKey = mnemonicToPrivKeyXverse(mnemonic);
 There can also be custom values:
 
 ```typescript
-import { mnemonicToPrivKeyXverse } from '@something/mocking';
+import { mnemonicToPrivKeyXverse } from 'stacks-testing-helpers';
 
 const mnemonic = 'your-mnemonic-phrase';
 const network = 1;
@@ -507,7 +507,7 @@ const privateKey = mnemonicToPrivKeyXverse(
 This function converts a PoX address to a BTC address.
 
 ```typescript
-import { poxAddrToBtcAddr, versions } from '@something/mocking';
+import { poxAddrToBtcAddr, versions } from 'stacks-testing-helpers';
 
 const version = versions.your_version;
 const hashbytes = 'hashbytes';
@@ -521,7 +521,7 @@ const address = poxAddrToBtcAddr(version, hashbytes, network);
 This function derives the extended public key (xPub) from a given mnemonic phrase using the specified derivation path with the default values `network = 0` and `accountIndex = 0`.
 
 ```typescript
-import { getXPub, AddressType } from '@something/mocking';
+import { getXPub, AddressType } from 'stacks-testing-helpers';
 
 const mnemonic = 'your-mnemonic-phrase';
 const addressType = 'your_address_type'; // "p2pkh" | "p2sh" | "p2wpkh" | "p2wsh" | "p2tr";
@@ -532,7 +532,7 @@ const xPub = getXPub(mnemonic, addressType);
 There can also be custom values:
 
 ```typescript
-import { getXPub, AddressType } from '@something/mocking';
+import { getXPub, AddressType } from 'stacks-testing-helpers';
 
 const mnemonic = 'your-mnemonic-phrase';
 const addressType = 'your_address_type'; // "p2pkh" | "p2sh" | "p2wpkh" | "p2wsh" | "p2tr";
@@ -547,7 +547,7 @@ const xPub = getXPub(mnemonic, addressType, network, accountIndex);
 This function derives the address from a given extended public key (xPub) using the specified derivation path with the default values `isTestnet = false`, `change = 0` and `addressIndex = 0`.
 
 ```typescript
-import { getAddressFromXpub, AddressType } from '@something/mocking';
+import { getAddressFromXpub, AddressType } from 'stacks-testing-helpers';
 
 const xpub = 'your-xpub';
 const addressType = 'your_address_type'; // "p2pkh" | "p2sh" | "p2wpkh" | "p2wsh" | "p2tr";
@@ -558,7 +558,7 @@ const address = getAddressFromXpub(xpub, addressType);
 There can also be custom values:
 
 ```typescript
-import { getAddressFromXpub, AddressType } from '@something/mocking';
+import { getAddressFromXpub, AddressType } from 'stacks-testing-helpers';
 
 const xpub = 'your-xpub';
 const addressType = 'your_address_type'; // "p2pkh" | "p2sh" | "p2wpkh" | "p2wsh" | "p2tr";
@@ -573,7 +573,7 @@ const address = getAddressFromXpub(xpub, addressType, network, accountIndex);
 This function validates a given Bitcoin address for the specified network.
 
 ```typescript
-import { validateAddress, Network } from '@something/mocking';
+import { validateAddress, Network } from 'stacks-testing-helpers';
 
 const btcAddress = 'your-btc-address';
 const network = Network.your_network;
@@ -586,7 +586,7 @@ const valid = validateAddress(btcAddress, network);
 This function converts a WIF (Wallet Import Format) key to a public key in hexadecimal format with default `network = 0` for mainnet.
 
 ```typescript
-import { wifToPublicKey } from '@something/mocking';
+import { wifToPublicKey } from 'stacks-testing-helpers';
 
 const wif = 'your-wif';
 
@@ -596,7 +596,7 @@ const publicKey = wifToPublicKey(btcAddress);
 There can also be custom values:
 
 ```typescript
-import { wifToPublicKey } from '@something/mocking';
+import { wifToPublicKey } from 'stacks-testing-helpers';
 
 const wif = 'your-wif';
 const network = 1; // for testnet
@@ -609,7 +609,7 @@ const publicKey = wifToPublicKey(btcAddress, network);
 This function converts a WIF (Wallet Import Format) key to a private key in hexadecimal format with default `network = 0` for mainnet.
 
 ```typescript
-import { wifToPrivateKey } from '@something/mocking';
+import { wifToPrivateKey } from 'stacks-testing-helpers';
 
 const wif = 'your-wif';
 
@@ -619,7 +619,7 @@ const privateKey = wifToPrivateKey(btcAddress);
 There can also be custom values:
 
 ```typescript
-import { wifToPrivateKey } from '@something/mocking';
+import { wifToPrivateKey } from 'stacks-testing-helpers';
 
 const wif = 'your-wif';
 const network = 1; // for testnet
@@ -632,7 +632,7 @@ const privateKey = wifToPrivateKey(btcAddress, network);
 This function derives a Bitcoin address from a given mnemonic phrase using the specified derivation path with the default values `network = 0`, `accountIndex = 0`, `change = 0` and `addressIndex = 0`.
 
 ```typescript
-import { mnemonicToAddress } from '@something/mocking';
+import { mnemonicToAddress } from 'stacks-testing-helpers';
 
 const mnemonic = 'your-mnemonic-phrase';
 const addressType = 'your_address_type'; // "p2pkh" | "p2sh" | "p2wpkh" | "p2wsh" | "p2tr";
@@ -643,7 +643,7 @@ const address = mnemonicToAddress(mnemonic, addressType);
 There can also be custom values:
 
 ```typescript
-import { mnemonicToAddress } from '@something/mocking';
+import { mnemonicToAddress } from 'stacks-testing-helpers';
 
 const mnemonic = 'your-mnemonic-phrase';
 const addressType = 'your_address_type'; // "p2pkh" | "p2sh" | "p2wpkh" | "p2wsh" | "p2tr";
@@ -667,7 +667,7 @@ const address = mnemonicToAddress(
 This function derives a public key from a given mnemonic phrase using the specified derivation path with the default values `network = 0`, `accountIndex = 0`, `change = 0` and `addressIndex = 0`.
 
 ```typescript
-import { mnemonicToPubKey } from '@something/mocking';
+import { mnemonicToPubKey } from 'stacks-testing-helpers';
 
 const mnemonic = 'your-mnemonic-phrase';
 const addressType = 'your_address_type'; // "p2pkh" | "p2sh" | "p2wpkh" | "p2wsh" | "p2tr";
@@ -678,7 +678,7 @@ const publicKey = mnemonicToPubKey(mnemonic, addressType);
 There can also be custom values:
 
 ```typescript
-import { mnemonicToPubKey } from '@something/mocking';
+import { mnemonicToPubKey } from 'stacks-testing-helpers';
 
 const mnemonic = 'your-mnemonic-phrase';
 const addressType = 'your_address_type'; // "p2pkh" | "p2sh" | "p2wpkh" | "p2wsh" | "p2tr";
@@ -702,7 +702,7 @@ const publicKey = mnemonicToPubKey(
 This function derives a private key from a given mnemonic phrase using the specified derivation path with the default values `network = 0`, `accountIndex = 0`, `change = 0` and `addressIndex = 0`.
 
 ```typescript
-import { mnemonicToAddress } from '@something/mocking';
+import { mnemonicToAddress } from 'stacks-testing-helpers';
 
 const mnemonic = 'your-mnemonic-phrase';
 const addressType = 'your_address_type'; // "p2pkh" | "p2sh" | "p2wpkh" | "p2wsh" | "p2tr";
@@ -713,7 +713,7 @@ const privateKey = mnemonicToPrivKey(mnemonic, addressType);
 There can also be custom values:
 
 ```typescript
-import { mnemonicToPrivKey } from '@something/mocking';
+import { mnemonicToPrivKey } from 'stacks-testing-helpers';
 
 const mnemonic = 'your-mnemonic-phrase';
 const addressType = 'your_address_type'; // "p2pkh" | "p2sh" | "p2wpkh" | "p2wsh" | "p2tr";

@@ -1,6 +1,6 @@
 {
-  "name": "wrapper-testing-bitcoin-and-stacks",
-  "version": "1.0.8",
+  "name": "stacks-testing-helpers",
+  "version": "1.0.0",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -8,7 +8,7 @@
     "build": "tsc",
     "test": "vitest"
   },
-  "author": "bowtiedwoo",
+  "author": "DegenLab",
   "license": "ISC",
   "dependencies": {
     "@hirosystems/clarinet-sdk": "^2.6.0",
@@ -25,6 +25,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/degen-lab/stacks-mocking-functions"
+    "url": "git+https://github.com/degen-lab/stacks-testing-helpers"
   }
 }
