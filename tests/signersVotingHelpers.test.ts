@@ -1,9 +1,9 @@
 import { initSimnet } from '@hirosystems/clarinet-sdk';
 import { it, describe, expect } from 'vitest';
-import { isInPreparePhaseJS } from '../src/functions/signersVotingHelpers';
+import { isInPreparePhaseMock } from '../src/functions/signersVotingHelpers';
 import {
-  PREPARE_CYCLE_LENGTH,
-  REWARD_CYCLE_LENGTH,
+  DEFAULT_TESTNET_PREPARE_CYCLE_LENGTH,
+  DEFAULT_TESTNET_REWARD_CYCLE_LENGTH,
 } from './testHelpers/testConstants';
 import fc from 'fast-check';
 import { getDataVar } from '../src/functions/stacksUtils';
@@ -17,7 +17,11 @@ describe('test signersVotingHelpers functions', async () => {
     fc.assert(
       fc.property(
         fc.nat(),
-        fc.nat(REWARD_CYCLE_LENGTH - PREPARE_CYCLE_LENGTH - 1),
+        fc.nat(
+          DEFAULT_TESTNET_REWARD_CYCLE_LENGTH -
+            DEFAULT_TESTNET_PREPARE_CYCLE_LENGTH -
+            1
+        ),
         (cycle, rngBlocks) => {
           const firstBurnchainBlockHt = getDataVar(
             simnet,
@@ -26,8 +30,10 @@ describe('test signersVotingHelpers functions', async () => {
           ) as unknown as number;
           const expected = false;
           const height =
-            firstBurnchainBlockHt + cycle * REWARD_CYCLE_LENGTH + rngBlocks;
-          const actual = isInPreparePhaseJS(simnet, deployer, height);
+            firstBurnchainBlockHt +
+            cycle * DEFAULT_TESTNET_REWARD_CYCLE_LENGTH +
+            rngBlocks;
+          const actual = isInPreparePhaseMock(simnet, deployer, height);
           expect(actual).toEqual(expected);
         }
       )
@@ -39,8 +45,10 @@ describe('test signersVotingHelpers functions', async () => {
       fc.property(
         fc.nat(),
         fc.integer({
-          min: REWARD_CYCLE_LENGTH - PREPARE_CYCLE_LENGTH,
-          max: REWARD_CYCLE_LENGTH - 1,
+          min:
+            DEFAULT_TESTNET_REWARD_CYCLE_LENGTH -
+            DEFAULT_TESTNET_PREPARE_CYCLE_LENGTH,
+          max: DEFAULT_TESTNET_REWARD_CYCLE_LENGTH - 1,
         }),
         (cycle, rngBlocks) => {
           const firstBurnchainBlockHt = getDataVar(
@@ -50,8 +58,10 @@ describe('test signersVotingHelpers functions', async () => {
           ) as unknown as number;
           const expected = true;
           const height =
-            firstBurnchainBlockHt + cycle * REWARD_CYCLE_LENGTH + rngBlocks;
-          const actual = isInPreparePhaseJS(simnet, deployer, height);
+            firstBurnchainBlockHt +
+            cycle * DEFAULT_TESTNET_REWARD_CYCLE_LENGTH +
+            rngBlocks;
+          const actual = isInPreparePhaseMock(simnet, deployer, height);
           expect(actual).toEqual(expected);
         }
       )

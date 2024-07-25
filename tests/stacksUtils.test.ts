@@ -18,7 +18,7 @@ import {
 } from '@stacks/stacking';
 import { getPublicKeyFromPrivate } from '@stacks/encryption';
 import { StacksDevnet } from '@stacks/network';
-import { currentRewardCycleJS } from '../src/functions/poxHelpers';
+import { currentRewardCycleMock } from '../src/functions/poxHelpers';
 
 const simnet = await initSimnet();
 const deployer = 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM';
@@ -129,7 +129,7 @@ describe('test stacksUtils functions', () => {
       // For stack-stx and stack-extend, this refers to the reward cycle
       // where the transaction is confirmed. For stack-aggregation-commit,
       // this refers to the reward cycle argument in that function.
-      rewardCycle: currentRewardCycleJS(simnet, deployer),
+      rewardCycle: currentRewardCycleMock(simnet, deployer),
       // For stack-stx, this refers to lock-period. For stack-extend,
       // this refers to extend-count. For stack-aggregation-commit, this is
       // u1.
@@ -212,7 +212,7 @@ describe('test stacksUtils functions', () => {
 
     const mapKey = Cl.tuple({
       'pox-addr': poxAddressToTuple('mqVnk6NPRdhntvfm4hh9vvjiRkFDUuSYsH'),
-      'reward-cycle': Cl.uint(currentRewardCycleJS(simnet, deployer) + 1),
+      'reward-cycle': Cl.uint(currentRewardCycleMock(simnet, deployer) + 1),
       sender: Cl.principal(stxAddresses[1]),
     });
 

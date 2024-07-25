@@ -1,20 +1,20 @@
 import { beforeAll, describe, expect, it } from 'vitest';
 import {
-  blocksUntilPreparePhaseJS,
-  blocksUntilRewardPhaseJS,
-  burnHeightToRewardCycleJS,
-  currentRewardCycleJS,
-  customBlocksUntilPreparePhaseJS,
-  customBlocksUntilRewardPhaseJS,
-  getPoxInfoJS,
-  getStackingMinimumJS,
-  rewardCycleToBurnHeightJS,
+  blocksUntilPreparePhase,
+  blocksUntilRewardPhase,
+  burnHeightToRewardCycleMock,
+  currentRewardCycleMock,
+  customBlocksUntilPreparePhase,
+  customBlocksUntilRewardPhase,
+  getPoxInfoMock,
+  getStackingMinimumMock,
+  rewardCycleToBurnHeightMock,
 } from '../src/functions/poxHelpers';
 import { Simnet, initSimnet } from '@hirosystems/clarinet-sdk';
 import fc from 'fast-check';
 import {
-  PREPARE_CYCLE_LENGTH,
-  REWARD_CYCLE_LENGTH,
+  DEFAULT_TESTNET_PREPARE_CYCLE_LENGTH,
+  DEFAULT_TESTNET_REWARD_CYCLE_LENGTH,
 } from './testHelpers/testConstants';
 import { burnBlockHeight, getDataVar } from '../src/functions/stacksUtils';
 
@@ -34,14 +34,15 @@ describe('test poxHelpers functions', async () => {
         const expected = 0;
         simnet.mineEmptyBlocks(nrBlocks);
         const toRewardPhase =
-          simnet.blockHeight % REWARD_CYCLE_LENGTH >=
-          REWARD_CYCLE_LENGTH - PREPARE_CYCLE_LENGTH
-            ? PREPARE_CYCLE_LENGTH
+          simnet.blockHeight % DEFAULT_TESTNET_REWARD_CYCLE_LENGTH >=
+          DEFAULT_TESTNET_REWARD_CYCLE_LENGTH -
+            DEFAULT_TESTNET_PREPARE_CYCLE_LENGTH
+            ? DEFAULT_TESTNET_PREPARE_CYCLE_LENGTH
             : 0;
         simnet.mineEmptyBlocks(toRewardPhase);
 
         // Act
-        const actual = blocksUntilRewardPhaseJS(simnet);
+        const actual = blocksUntilRewardPhase(simnet);
 
         // Expect
         expect(actual).toEqual(expected);
@@ -55,17 +56,18 @@ describe('test poxHelpers functions', async () => {
         // Arrange
         simnet.mineEmptyBlocks(nrBlocks);
         const toPreparePhase =
-          simnet.blockHeight % REWARD_CYCLE_LENGTH <
-          REWARD_CYCLE_LENGTH - PREPARE_CYCLE_LENGTH
-            ? REWARD_CYCLE_LENGTH -
-              PREPARE_CYCLE_LENGTH -
-              (simnet.blockHeight % REWARD_CYCLE_LENGTH)
+          simnet.blockHeight % DEFAULT_TESTNET_REWARD_CYCLE_LENGTH <
+          DEFAULT_TESTNET_REWARD_CYCLE_LENGTH -
+            DEFAULT_TESTNET_PREPARE_CYCLE_LENGTH
+            ? DEFAULT_TESTNET_REWARD_CYCLE_LENGTH -
+              DEFAULT_TESTNET_PREPARE_CYCLE_LENGTH -
+              (simnet.blockHeight % DEFAULT_TESTNET_REWARD_CYCLE_LENGTH)
             : 0;
         simnet.mineEmptyBlocks(toPreparePhase);
         const expected = 1050 - (simnet.blockHeight % 1050);
 
         // Act
-        const actual = blocksUntilRewardPhaseJS(simnet);
+        const actual = blocksUntilRewardPhase(simnet);
 
         // Expect
         expect(actual).toEqual(expected);
@@ -80,16 +82,17 @@ describe('test poxHelpers functions', async () => {
         const expected = 0;
         simnet.mineEmptyBlocks(nrBlocks);
         const toPreparePhase =
-          simnet.blockHeight % REWARD_CYCLE_LENGTH <
-          REWARD_CYCLE_LENGTH - PREPARE_CYCLE_LENGTH
-            ? REWARD_CYCLE_LENGTH -
-              PREPARE_CYCLE_LENGTH -
-              (simnet.blockHeight % REWARD_CYCLE_LENGTH)
+          simnet.blockHeight % DEFAULT_TESTNET_REWARD_CYCLE_LENGTH <
+          DEFAULT_TESTNET_REWARD_CYCLE_LENGTH -
+            DEFAULT_TESTNET_PREPARE_CYCLE_LENGTH
+            ? DEFAULT_TESTNET_REWARD_CYCLE_LENGTH -
+              DEFAULT_TESTNET_PREPARE_CYCLE_LENGTH -
+              (simnet.blockHeight % DEFAULT_TESTNET_REWARD_CYCLE_LENGTH)
             : 0;
         simnet.mineEmptyBlocks(toPreparePhase);
 
         // Act
-        const actual = blocksUntilPreparePhaseJS(simnet);
+        const actual = blocksUntilPreparePhase(simnet);
 
         // Expect
         expect(actual).toEqual(expected);
@@ -103,18 +106,19 @@ describe('test poxHelpers functions', async () => {
         // Arrange
         simnet.mineEmptyBlocks(nrBlocks);
         const toRewardPhase =
-          simnet.blockHeight % REWARD_CYCLE_LENGTH >=
-          REWARD_CYCLE_LENGTH - PREPARE_CYCLE_LENGTH
-            ? PREPARE_CYCLE_LENGTH
+          simnet.blockHeight % DEFAULT_TESTNET_REWARD_CYCLE_LENGTH >=
+          DEFAULT_TESTNET_REWARD_CYCLE_LENGTH -
+            DEFAULT_TESTNET_PREPARE_CYCLE_LENGTH
+            ? DEFAULT_TESTNET_PREPARE_CYCLE_LENGTH
             : 0;
         simnet.mineEmptyBlocks(toRewardPhase);
         const expected =
-          REWARD_CYCLE_LENGTH -
-          PREPARE_CYCLE_LENGTH -
-          (simnet.blockHeight % REWARD_CYCLE_LENGTH);
+          DEFAULT_TESTNET_REWARD_CYCLE_LENGTH -
+          DEFAULT_TESTNET_PREPARE_CYCLE_LENGTH -
+          (simnet.blockHeight % DEFAULT_TESTNET_REWARD_CYCLE_LENGTH);
 
         // Act
-        const actual = blocksUntilPreparePhaseJS(simnet);
+        const actual = blocksUntilPreparePhase(simnet);
 
         // Expect
         expect(actual).toEqual(expected);
@@ -160,7 +164,7 @@ describe('test poxHelpers functions', async () => {
           const expected = 0;
 
           // Act
-          const actual = customBlocksUntilRewardPhaseJS(
+          const actual = customBlocksUntilRewardPhase(
             burnBlockHt,
             rewardCycleLength,
             prepareCycleLength,
@@ -198,7 +202,7 @@ describe('test poxHelpers functions', async () => {
           const expected = 0;
 
           // Act
-          const actual = customBlocksUntilRewardPhaseJS(
+          const actual = customBlocksUntilRewardPhase(
             burnBlockHt,
             rewardCycleLength,
             prepareCycleLength
@@ -222,7 +226,7 @@ describe('test poxHelpers functions', async () => {
           .filter(
             ({ rewardCycleLength, height }) =>
               (height - 0) % rewardCycleLength <
-              rewardCycleLength - PREPARE_CYCLE_LENGTH
+              rewardCycleLength - DEFAULT_TESTNET_PREPARE_CYCLE_LENGTH
           )
           .map(({ rewardCycleLength, height }) => ({
             burnBlockHt: height,
@@ -233,7 +237,7 @@ describe('test poxHelpers functions', async () => {
           const expected = 0;
 
           // Act
-          const actual = customBlocksUntilRewardPhaseJS(
+          const actual = customBlocksUntilRewardPhase(
             burnBlockHt,
             rewardCycleLength
           );
@@ -254,8 +258,9 @@ describe('test poxHelpers functions', async () => {
           })
           .filter(
             ({ height }) =>
-              (height - 0) % REWARD_CYCLE_LENGTH <
-              REWARD_CYCLE_LENGTH - PREPARE_CYCLE_LENGTH
+              (height - 0) % DEFAULT_TESTNET_REWARD_CYCLE_LENGTH <
+              DEFAULT_TESTNET_REWARD_CYCLE_LENGTH -
+                DEFAULT_TESTNET_PREPARE_CYCLE_LENGTH
           )
           .map(({ height }) => ({
             burnBlockHt: height,
@@ -265,7 +270,7 @@ describe('test poxHelpers functions', async () => {
           const expected = 0;
 
           // Act
-          const actual = customBlocksUntilRewardPhaseJS(burnBlockHt);
+          const actual = customBlocksUntilRewardPhase(burnBlockHt);
 
           // Expect
           expect(actual).toEqual(expected);
@@ -314,7 +319,7 @@ describe('test poxHelpers functions', async () => {
             ((burnBlockHt - startBurnHt) % rewardCycleLength);
 
           // Act
-          const actual = customBlocksUntilRewardPhaseJS(
+          const actual = customBlocksUntilRewardPhase(
             burnBlockHt,
             rewardCycleLength,
             prepareCycleLength,
@@ -353,7 +358,7 @@ describe('test poxHelpers functions', async () => {
             rewardCycleLength - ((burnBlockHt - 0) % rewardCycleLength);
 
           // Act
-          const actual = customBlocksUntilRewardPhaseJS(
+          const actual = customBlocksUntilRewardPhase(
             burnBlockHt,
             rewardCycleLength,
             prepareCycleLength
@@ -377,7 +382,7 @@ describe('test poxHelpers functions', async () => {
           .filter(
             ({ rewardCycleLength, height }) =>
               (height - 0) % rewardCycleLength >=
-              rewardCycleLength - PREPARE_CYCLE_LENGTH
+              rewardCycleLength - DEFAULT_TESTNET_PREPARE_CYCLE_LENGTH
           )
           .map(({ rewardCycleLength, height }) => ({
             burnBlockHt: height,
@@ -389,7 +394,7 @@ describe('test poxHelpers functions', async () => {
             rewardCycleLength - ((burnBlockHt - 0) % rewardCycleLength);
 
           // Act
-          const actual = customBlocksUntilRewardPhaseJS(
+          const actual = customBlocksUntilRewardPhase(
             burnBlockHt,
             rewardCycleLength
           );
@@ -410,8 +415,9 @@ describe('test poxHelpers functions', async () => {
           })
           .filter(
             ({ height }) =>
-              (height - 0) % REWARD_CYCLE_LENGTH >=
-              REWARD_CYCLE_LENGTH - PREPARE_CYCLE_LENGTH
+              (height - 0) % DEFAULT_TESTNET_REWARD_CYCLE_LENGTH >=
+              DEFAULT_TESTNET_REWARD_CYCLE_LENGTH -
+                DEFAULT_TESTNET_PREPARE_CYCLE_LENGTH
           )
           .map(({ height }) => ({
             burnBlockHt: height,
@@ -419,10 +425,11 @@ describe('test poxHelpers functions', async () => {
         ({ burnBlockHt }) => {
           // Arrange
           const expected =
-            REWARD_CYCLE_LENGTH - ((burnBlockHt - 0) % REWARD_CYCLE_LENGTH);
+            DEFAULT_TESTNET_REWARD_CYCLE_LENGTH -
+            ((burnBlockHt - 0) % DEFAULT_TESTNET_REWARD_CYCLE_LENGTH);
 
           // Act
-          const actual = customBlocksUntilRewardPhaseJS(burnBlockHt);
+          const actual = customBlocksUntilRewardPhase(burnBlockHt);
 
           // Expect
           expect(actual).toEqual(expected);
@@ -469,7 +476,7 @@ describe('test poxHelpers functions', async () => {
           const expected = 0;
 
           // Act
-          const actual = customBlocksUntilPreparePhaseJS(
+          const actual = customBlocksUntilPreparePhase(
             burnBlockHt,
             rewardCycleLength,
             prepareCycleLength,
@@ -507,7 +514,7 @@ describe('test poxHelpers functions', async () => {
           const expected = 0;
 
           // Act
-          const actual = customBlocksUntilPreparePhaseJS(
+          const actual = customBlocksUntilPreparePhase(
             burnBlockHt,
             rewardCycleLength,
             prepareCycleLength
@@ -531,7 +538,7 @@ describe('test poxHelpers functions', async () => {
           .filter(
             ({ rewardCycleLength, height }) =>
               (height - 0) % rewardCycleLength >=
-              rewardCycleLength - PREPARE_CYCLE_LENGTH
+              rewardCycleLength - DEFAULT_TESTNET_PREPARE_CYCLE_LENGTH
           )
           .map(({ rewardCycleLength, height }) => ({
             burnBlockHt: height,
@@ -542,7 +549,7 @@ describe('test poxHelpers functions', async () => {
           const expected = 0;
 
           // Act
-          const actual = customBlocksUntilPreparePhaseJS(
+          const actual = customBlocksUntilPreparePhase(
             burnBlockHt,
             rewardCycleLength
           );
@@ -563,8 +570,9 @@ describe('test poxHelpers functions', async () => {
           })
           .filter(
             ({ height }) =>
-              (height - 0) % REWARD_CYCLE_LENGTH >=
-              REWARD_CYCLE_LENGTH - PREPARE_CYCLE_LENGTH
+              (height - 0) % DEFAULT_TESTNET_REWARD_CYCLE_LENGTH >=
+              DEFAULT_TESTNET_REWARD_CYCLE_LENGTH -
+                DEFAULT_TESTNET_PREPARE_CYCLE_LENGTH
           )
           .map(({ height }) => ({
             burnBlockHt: height,
@@ -574,7 +582,7 @@ describe('test poxHelpers functions', async () => {
           const expected = 0;
 
           // Act
-          const actual = customBlocksUntilPreparePhaseJS(burnBlockHt);
+          const actual = customBlocksUntilPreparePhase(burnBlockHt);
 
           // Expect
           expect(actual).toEqual(expected);
@@ -624,7 +632,7 @@ describe('test poxHelpers functions', async () => {
             ((burnBlockHt - startBurnHt) % rewardCycleLength);
 
           // Act
-          const actual = customBlocksUntilPreparePhaseJS(
+          const actual = customBlocksUntilPreparePhase(
             burnBlockHt,
             rewardCycleLength,
             prepareCycleLength,
@@ -665,7 +673,7 @@ describe('test poxHelpers functions', async () => {
             (burnBlockHt % rewardCycleLength);
 
           // Act
-          const actual = customBlocksUntilPreparePhaseJS(
+          const actual = customBlocksUntilPreparePhase(
             burnBlockHt,
             rewardCycleLength,
             prepareCycleLength
@@ -689,7 +697,7 @@ describe('test poxHelpers functions', async () => {
           .filter(
             ({ rewardCycleLength, height }) =>
               (height - 0) % rewardCycleLength <
-              rewardCycleLength - PREPARE_CYCLE_LENGTH
+              rewardCycleLength - DEFAULT_TESTNET_PREPARE_CYCLE_LENGTH
           )
           .map(({ rewardCycleLength, height }) => ({
             burnBlockHt: height,
@@ -699,11 +707,11 @@ describe('test poxHelpers functions', async () => {
           // Arrange
           const expected =
             rewardCycleLength -
-            PREPARE_CYCLE_LENGTH -
+            DEFAULT_TESTNET_PREPARE_CYCLE_LENGTH -
             (burnBlockHt % rewardCycleLength);
 
           // Act
-          const actual = customBlocksUntilPreparePhaseJS(
+          const actual = customBlocksUntilPreparePhase(
             burnBlockHt,
             rewardCycleLength
           );
@@ -724,8 +732,9 @@ describe('test poxHelpers functions', async () => {
           })
           .filter(
             ({ height }) =>
-              (height - 0) % REWARD_CYCLE_LENGTH <
-              REWARD_CYCLE_LENGTH - PREPARE_CYCLE_LENGTH
+              (height - 0) % DEFAULT_TESTNET_REWARD_CYCLE_LENGTH <
+              DEFAULT_TESTNET_REWARD_CYCLE_LENGTH -
+                DEFAULT_TESTNET_PREPARE_CYCLE_LENGTH
           )
           .map(({ height }) => ({
             burnBlockHt: height,
@@ -733,12 +742,12 @@ describe('test poxHelpers functions', async () => {
         ({ burnBlockHt }) => {
           // Arrange
           const expected =
-            REWARD_CYCLE_LENGTH -
-            PREPARE_CYCLE_LENGTH -
-            (burnBlockHt % REWARD_CYCLE_LENGTH);
+            DEFAULT_TESTNET_REWARD_CYCLE_LENGTH -
+            DEFAULT_TESTNET_PREPARE_CYCLE_LENGTH -
+            (burnBlockHt % DEFAULT_TESTNET_REWARD_CYCLE_LENGTH);
 
           // Act
-          const actual = customBlocksUntilPreparePhaseJS(burnBlockHt);
+          const actual = customBlocksUntilPreparePhase(burnBlockHt);
 
           // Expect
           expect(actual).toEqual(expected);
@@ -761,11 +770,11 @@ describe('test poxHelpers functions', async () => {
               contract,
               'first-burnchain-block-height'
             ) as unknown as number)) /
-            REWARD_CYCLE_LENGTH
+            DEFAULT_TESTNET_REWARD_CYCLE_LENGTH
         );
 
         // Act
-        const actual = currentRewardCycleJS(simnet, deployer);
+        const actual = currentRewardCycleMock(simnet, deployer);
 
         // Expect
         expect(actual).toEqual(expected);
@@ -784,11 +793,11 @@ describe('test poxHelpers functions', async () => {
               contract,
               'first-burnchain-block-height'
             ) as unknown as number)) /
-            REWARD_CYCLE_LENGTH
+            DEFAULT_TESTNET_REWARD_CYCLE_LENGTH
         );
 
         // Act
-        const actual = burnHeightToRewardCycleJS(simnet, deployer, height);
+        const actual = burnHeightToRewardCycleMock(simnet, deployer, height);
 
         // Expect
         expect(actual).toEqual(expected);
@@ -800,10 +809,10 @@ describe('test poxHelpers functions', async () => {
     fc.assert(
       fc.property(fc.nat(), (rewCycle) => {
         // Arrange
-        const expected = rewCycle * REWARD_CYCLE_LENGTH;
+        const expected = rewCycle * DEFAULT_TESTNET_REWARD_CYCLE_LENGTH;
 
         // Act
-        const actual = rewardCycleToBurnHeightJS(simnet, deployer, rewCycle);
+        const actual = rewardCycleToBurnHeightMock(simnet, deployer, rewCycle);
 
         // Expect
         expect(actual).toEqual(expected);
@@ -824,7 +833,7 @@ describe('test poxHelpers functions', async () => {
               contract,
               'first-burnchain-block-height'
             ) as unknown as number)) /
-            REWARD_CYCLE_LENGTH
+            DEFAULT_TESTNET_REWARD_CYCLE_LENGTH
         );
         const expected = {
           'first-burnchain-block-height': 0,
@@ -836,7 +845,7 @@ describe('test poxHelpers functions', async () => {
         };
 
         // Act
-        const actual = getPoxInfoJS(simnet, deployer);
+        const actual = getPoxInfoMock(simnet, deployer);
 
         // Expect
         expect(actual).toEqual(expected);
@@ -851,7 +860,7 @@ describe('test poxHelpers functions', async () => {
         const expected = BigInt(125000000000);
 
         // Act
-        const actual = getStackingMinimumJS(simnet, deployer);
+        const actual = getStackingMinimumMock(simnet, deployer);
 
         // Expect
         expect(actual).toEqual(expected);

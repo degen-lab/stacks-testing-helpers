@@ -1,2 +1,2 @@
-export const REWARD_CYCLE_LENGTH: number = 1050;
-export const PREPARE_CYCLE_LENGTH: number = 50;
+export const DEFAULT_TESTNET_REWARD_CYCLE_LENGTH: number = 1050;
+export const DEFAULT_TESTNET_PREPARE_CYCLE_LENGTH: number = 50;

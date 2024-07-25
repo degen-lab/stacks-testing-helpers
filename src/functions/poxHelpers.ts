@@ -1,8 +1,8 @@
 import { Simnet } from '@hirosystems/clarinet-sdk';
 import { Cl, cvToJSON, cvToValue } from '@stacks/transactions';
 import {
-  PREPARE_CYCLE_LENGTH,
-  REWARD_CYCLE_LENGTH,
+  DEFAULT_TESTNET_PREPARE_CYCLE_LENGTH,
+  DEFAULT_TESTNET_REWARD_CYCLE_LENGTH,
 } from '../helpers/constants';
 import { PoxInfo, PoxInfoKey } from '../types/poxHelpers.types';
 import { getDataVar } from './stacksUtils';
@@ -17,7 +17,10 @@ const pox4 = 'ST000000000000000000002AMW42H.pox-4';
  * @param caller - The address of the caller making the read-only function call.
  * @returns The current stacking reward cycle.
  */
-export function currentRewardCycleJS(network: Simnet, caller: string): number {
+export function currentRewardCycleMock(
+  network: Simnet,
+  caller: string
+): number {
   const { result: actual } = network.callReadOnlyFn(
     pox4,
     'current-pox-reward-cycle',
@@ -35,7 +38,7 @@ export function currentRewardCycleJS(network: Simnet, caller: string): number {
  * @param height - The burn height for which the reward cycle is calculated.
  * @returns The reward cycle corresponding to the given burn height.
  */
-export function burnHeightToRewardCycleJS(
+export function burnHeightToRewardCycleMock(
   network: Simnet,
   caller: string,
   height: number
@@ -58,7 +61,7 @@ export function burnHeightToRewardCycleJS(
  * calculated.
  * @returns The first burn block height of the given reward cycle.
  */
-export function rewardCycleToBurnHeightJS(
+export function rewardCycleToBurnHeightMock(
   network: Simnet,
   caller: string,
   rewCycle: number
@@ -85,7 +88,7 @@ export function rewardCycleToBurnHeightJS(
  * @param caller - The address of the caller making the read-only function call.
  * @returns An object containing POX (Proof of Transfer) information.
  */
-export function getPoxInfoJS(network: Simnet, caller: string): PoxInfo {
+export function getPoxInfoMock(network: Simnet, caller: string): PoxInfo {
   const { result: actual } = network.callReadOnlyFn(
     pox4,
     'get-pox-info',
@@ -120,7 +123,10 @@ export function getPoxInfoJS(network: Simnet, caller: string): PoxInfo {
  * @param caller - The address of the caller making the read-only function call.
  * @returns The minimum amount of uSTX required for a stacking slot.
  */
-export function getStackingMinimumJS(network: Simnet, caller: string): bigint {
+export function getStackingMinimumMock(
+  network: Simnet,
+  caller: string
+): bigint {
   const { result: actual } = network.callReadOnlyFn(
     pox4,
     'get-stacking-minimum',
@@ -138,18 +144,21 @@ export function getStackingMinimumJS(network: Simnet, caller: string): bigint {
  * @returns The number of burn blocks remaining until the reward phase starts. Returns
  * 0 if already in the reward phase.
  */
-export function blocksUntilRewardPhaseJS(network: Simnet): number {
+export function blocksUntilRewardPhase(network: Simnet): number {
   const height = network.blockHeight;
   const startBurnHt = Number(
     getDataVar(network, pox4, 'first-burnchain-block-height')
   );
   if (
-    (height - startBurnHt) % REWARD_CYCLE_LENGTH <
-    REWARD_CYCLE_LENGTH - PREPARE_CYCLE_LENGTH
+    (height - startBurnHt) % DEFAULT_TESTNET_REWARD_CYCLE_LENGTH <
+    DEFAULT_TESTNET_REWARD_CYCLE_LENGTH - DEFAULT_TESTNET_PREPARE_CYCLE_LENGTH
   ) {
     return 0;
   } else {
-    return REWARD_CYCLE_LENGTH - (network.blockHeight % REWARD_CYCLE_LENGTH);
+    return (
+      DEFAULT_TESTNET_REWARD_CYCLE_LENGTH -
+      (network.blockHeight % DEFAULT_TESTNET_REWARD_CYCLE_LENGTH)
+    );
   }
 }
 
@@ -170,7 +179,7 @@ export function blocksUntilRewardPhaseJS(network: Simnet): number {
  * @returns The number of burn blocks remaining until the reward phase starts. Returns
  * 0 if already in the reward phase.
  */
-export function customBlocksUntilRewardPhaseJS(
+export function customBlocksUntilRewardPhase(
   burnBlockHeight: number,
   rewardCycleLength: number = 1050,
   prepareCycleLength: number = 50,
@@ -196,21 +205,21 @@ export function customBlocksUntilRewardPhaseJS(
  * @returns The number of burn blocks remaining until the prepare phase starts. Returns
  * 0 if already in the prepare phase.
  */
-export function blocksUntilPreparePhaseJS(network: Simnet): number {
+export function blocksUntilPreparePhase(network: Simnet): number {
   const height = network.blockHeight;
   const startBurnHt = Number(
     getDataVar(network, pox4, 'first-burnchain-block-height')
   );
   if (
-    (height - startBurnHt) % REWARD_CYCLE_LENGTH >=
-    REWARD_CYCLE_LENGTH - PREPARE_CYCLE_LENGTH
+    (height - startBurnHt) % DEFAULT_TESTNET_REWARD_CYCLE_LENGTH >=
+    DEFAULT_TESTNET_REWARD_CYCLE_LENGTH - DEFAULT_TESTNET_PREPARE_CYCLE_LENGTH
   ) {
     return 0;
   } else {
     return (
-      REWARD_CYCLE_LENGTH -
-      PREPARE_CYCLE_LENGTH -
-      (network.blockHeight % REWARD_CYCLE_LENGTH)
+      DEFAULT_TESTNET_REWARD_CYCLE_LENGTH -
+      DEFAULT_TESTNET_PREPARE_CYCLE_LENGTH -
+      (network.blockHeight % DEFAULT_TESTNET_REWARD_CYCLE_LENGTH)
     );
   }
 }
@@ -232,7 +241,7 @@ export function blocksUntilPreparePhaseJS(network: Simnet): number {
  * @returns The number of burn blocks remaining until the prepare phase starts. Returns 0
  * if already in the prepare phase.
  */
-export function customBlocksUntilPreparePhaseJS(
+export function customBlocksUntilPreparePhase(
   burnBlockHeight: number,
   rewardCycleLength: number = 1050,
   prepareCycleLength: number = 50,

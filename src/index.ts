@@ -1,16 +1,16 @@
 export {
-  blocksUntilPreparePhaseJS as blocksUntilPreparePhase,
-  blocksUntilRewardPhaseJS as blocksUntilRewardPhase,
-  customBlocksUntilPreparePhaseJS as customBlocksUntilPreparePhase,
-  customBlocksUntilRewardPhaseJS as customBlocksUntilRewardPhase,
-  currentRewardCycleJS as currentRewardCycleMock,
-  burnHeightToRewardCycleJS as burnHeightToRewardCycleMock,
-  rewardCycleToBurnHeightJS as rewardCycleToBurnHeightMock,
-  getPoxInfoJS as getPoxInfoMock,
-  getStackingMinimumJS as getStackingMinimumMock,
+  blocksUntilPreparePhase,
+  blocksUntilRewardPhase,
+  customBlocksUntilPreparePhase,
+  customBlocksUntilRewardPhase,
+  currentRewardCycleMock,
+  burnHeightToRewardCycleMock,
+  rewardCycleToBurnHeightMock,
+  getPoxInfoMock,
+  getStackingMinimumMock,
 } from './functions/poxHelpers';
 
-export { isInPreparePhaseJS as isInPreparePhaseMock } from './functions/signersVotingHelpers';
+export { isInPreparePhaseMock } from './functions/signersVotingHelpers';
 
 export {
   mnemonicToPubKeyLeather,
@@ -43,6 +43,6 @@ export {
 } from './functions/stacksUtils';
 
 export {
-  PREPARE_CYCLE_LENGTH as DEFAULT_TESTNET_PREPARE_CYCLE_LENGTH,
-  REWARD_CYCLE_LENGTH as DEFAULT_TESTNET_REWARD_CYCLE_LENGTH,
+  DEFAULT_TESTNET_PREPARE_CYCLE_LENGTH,
+  DEFAULT_TESTNET_REWARD_CYCLE_LENGTH,
 } from './helpers/constants';
