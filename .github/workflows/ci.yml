@@ -1,0 +1,51 @@
+name: Publish to Node
+
+on: 
+  push:
+    branches:
+      - master
+
+jobs:
+  setup-node:
+    name: Setup Node
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Node
+        id: setup_node
+        uses: actions/setup-node@1e60f620b9541d16bece96c5465dc8ee9832be0b #v4.0.3
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org/'
+
+  run-tests:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    needs:
+      - setup-node
+    steps:
+      - name: Checkout Code
+        id: checkout_code
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 #v4.1.7
+
+      - name: Test Package
+        id: test_package
+        run: |
+          npm ci
+          npm test
+
+  publish:
+    name: Publish Package
+    runs-on: ubuntu-latest
+    needs:
+      - run-tests
+    steps:
+      - name: Checkout Code
+        id: checkout_code
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 #v4.1.7
+
+      - name: Publish Package
+        id: publish_package
+        uses: JS-DevTools/npm-publish@19c28f1ef146469e409470805ea4279d47c3d35c # v3.1.1
+        with:
+          token: ${{ secrets.NPM_PUBLISH_TOKEN }}
+          access: public
