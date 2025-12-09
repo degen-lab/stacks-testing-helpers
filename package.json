@@ -28,7 +28,7 @@
     "vitest": "^1.6.0"
   },
   "repository": {
-    "url": "git+https://github.com/degen-lab/stacks-testing-helpers",
-    "type": "git"
+    "type": "git",
+    "url": "git+https://github.com/degen-lab/stacks-testing-helpers"
   }
 }
