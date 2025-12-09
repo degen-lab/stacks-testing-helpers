@@ -1,5 +1,5 @@
 {
-  "name": "stacks-testing-helpers",
+  "name": "@degenlab/stacks-testing-helpers",
   "version": "1.0.1",
   "description": "",
   "main": "dist/index.js",
