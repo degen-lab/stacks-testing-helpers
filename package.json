@@ -1,6 +1,10 @@
 {
   "name": "@degenlab/stacks-testing-helpers",
-  "version": "1.0.1",
+  "version": "1.0.2",
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
